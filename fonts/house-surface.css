@@ -1,0 +1,201 @@
+/* house-surface.css — the Barks & Meows surface kit.
+ *
+ * Pair with fonts.css from the same locker. Palette first, then surfaces,
+ * then motion. Nothing here fetches anything; wifi off is the test.
+ *
+ * One source: T00lB0x/fontlocker. Seat copies under out/fonts/ and
+ * published/fonts/ are pushed by sync-kit.sh and are not edited in place.
+ */
+:root{
+  /* Palette — warm and papery. Cold neutrals (#f4f4f0 ground, #cfcabb line,
+     #6b7280 blue-grey text) read as a wireframe even under correct green and
+     gold: the accents are not the problem, the air around them is. */
+  --paper:   #fffdf8;   /* card / raised surface  (NOT #ffffff) */
+  --cream:   #f6f1e8;   /* page ground            (NOT #f4f4f0) */
+  --line:    #e2d8c8;   /* rules and borders      (NOT #cfcabb) */
+  --ink:     #1a2420;   /* body text, green-black */
+  --muted:   #5c675f;   /* secondary text, green-grey (NOT #6b7280) */
+  --green:   #1b4d3e;   /* primary */
+  --green-2: #14382d;   /* deep, for gradient stops and dark panels */
+  --gold:    #a4711a;   /* accent */
+  --gold-hi: #8a6a10;
+
+  /* Depth — four steps, used by role, never all at once. Flat shadows with no
+     inset are most of what makes a surface read as unfinished. */
+  --lift-hairline: 0 0 0 .5px #0a0a0a;
+  --lift-rest:     0 10px 30px rgba(0,0,0,.35);
+  --lift-raised:   0 12px 30px rgba(0,0,0,.4);
+  --lift-hero:     inset 0 1px 0 rgba(255,255,255,.07), 0 28px 70px rgba(0,0,0,.45);
+  --glow:          0 0 30px rgba(0,0,0,.45);
+
+  /* Shading — the top-light convention. Every raised face is lighter at its
+     top edge and settles downward. 180deg, always. This single mechanic does
+     more work than any other value in this file. */
+  --sheen-paper: linear-gradient(180deg, rgba(246,241,232,.5), rgba(246,241,232,.7));
+  --sheen-green: linear-gradient(180deg, rgba(20,56,45,.42), rgba(20,56,45,.62));
+  --sheen-dark:  linear-gradient(180deg, #2c2c2c 0%, #1b1b1b 46%, #121212 100%);
+  --sheen-void:  linear-gradient(180deg, #070807 0%, #000 28%, #000 100%);
+  --scrim-up:    linear-gradient(to top, rgba(10,18,14,.88) 0%, rgba(10,18,14,.5) 36%, rgba(10,18,14,.08) 70%);
+  --bloom-green: radial-gradient(ellipse 80% 55% at 50% 38%, rgba(27,77,62,.45), transparent 64%);
+  --bloom-hot:   radial-gradient(circle at 50% 42%, rgba(90,255,150,.62), rgba(32,157,80,.18) 46%, transparent 70%);
+
+  /* Glass — one blur, used sparingly, over a scrim and never over bare text. */
+  --glass: blur(14px);
+
+  /* Motion — two curves only. ease for touch response, the long bezier for
+     anything that enters the page. */
+  --t-touch: .25s ease;
+  --t-enter: .9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Two decorative loops. Both must survive being switched off. */
+@keyframes bob      { 0%,100%{ transform: translateY(0) }      50%{ transform: translateY(-14px) } }
+@keyframes ringglow { 0%,100%{ opacity:.4; transform: scale(.94) } 50%{ opacity:1; transform: scale(1.08) } }
+
+/* Non-negotiable: a page that cannot be stilled does not ship. */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{ animation: none !important; transition: none !important; }
+}
+
+/* ---------------------------------------------------------------------------
+ * Component layer. Tokens alone are a palette, not a look: a page can hold
+ * every correct value and still read flat, because nothing is using the
+ * depth. These classes spend the tokens. Opt in by class name; nothing here
+ * styles a bare element, so linking the kit cannot move a page on its own.
+ * --------------------------------------------------------------------------- */
+
+/* A raised light face. Top-lit, hairline-ruled, settles downward. */
+.k-surface{
+  position: relative;
+  background: var(--paper);
+  background-image: var(--sheen-paper);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.85) inset,
+              0 1px 2px rgba(26,36,32,.05),
+              0 14px 34px -18px rgba(26,36,32,.3);
+  transition: transform var(--t-touch), box-shadow var(--t-touch),
+              border-color var(--t-touch);
+}
+/* The gold hairline. One pixel along the top edge, the cheapest expensive
+   thing in the kit. Hidden until the surface is current or hovered. */
+.k-surface::before{
+  content: ""; position: absolute; inset: 0 0 auto; height: 2px;
+  border-radius: 14px 14px 0 0;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0; transition: opacity var(--t-touch);
+}
+.k-surface:hover{
+  transform: translateY(-3px);
+  border-color: #d8ccb6;
+  box-shadow: 0 1px 0 rgba(255,255,255,.9) inset,
+              0 2px 4px rgba(26,36,32,.06),
+              0 26px 50px -22px rgba(26,36,32,.38);
+}
+.k-surface:hover::before,
+.k-surface.is-current::before{ opacity: 1; }
+.k-surface.is-current{
+  border-color: var(--gold);
+  box-shadow: 0 1px 0 rgba(255,255,255,.9) inset,
+              0 0 0 1px rgba(164,113,26,.22),
+              0 26px 54px -22px rgba(26,36,32,.4);
+}
+
+/* A dark face. Same mechanic, green instead of paper. */
+.k-surface-dark{
+  position: relative;
+  background: var(--green-2);
+  background-image: var(--sheen-green);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  color: var(--cream);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), var(--lift-rest);
+}
+
+/* The hero face. One per page, the deepest step, nothing else gets it. */
+.k-hero{
+  background-image: var(--bloom-green), var(--sheen-void);
+  box-shadow: var(--lift-hero);
+}
+
+/* Buttons. A flat fill is the single clearest tell of an unfinished page:
+   a real button is lighter at the top and has a seated bottom edge. */
+.k-btn{
+  position: relative;
+  background: var(--green);
+  background-image: linear-gradient(180deg, rgba(255,255,255,.14), rgba(0,0,0,.1));
+  color: var(--cream);
+  border: 1px solid var(--green-2);
+  border-radius: 999px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18),
+              0 1px 2px rgba(20,56,45,.28),
+              0 10px 22px -14px rgba(20,56,45,.55);
+  transition: transform var(--t-touch), box-shadow var(--t-touch),
+              filter var(--t-touch);
+}
+.k-btn:hover{
+  filter: saturate(1.06) brightness(1.04);
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22),
+              0 2px 3px rgba(20,56,45,.3),
+              0 16px 30px -14px rgba(20,56,45,.6);
+}
+.k-btn:active{ transform: translateY(1px); box-shadow: inset 0 2px 6px rgba(0,0,0,.3); }
+.k-btn-gold{
+  background: var(--gold);
+  background-image: linear-gradient(180deg, rgba(255,255,255,.2), rgba(0,0,0,.12));
+  border-color: var(--gold-hi);
+  color: #fffdf8;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.3),
+              0 1px 2px rgba(138,106,16,.3),
+              0 10px 22px -14px rgba(138,106,16,.6);
+}
+.k-btn-quiet{
+  background: transparent; background-image: none;
+  color: var(--green); border-color: var(--line);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+}
+.k-btn-quiet:hover{ background: var(--paper); filter: none; }
+
+/* Photographic panels. A picture under text needs a gradient scrim, not an
+   opacity wash: the wash greys the photo, the scrim keeps it. */
+.k-plate{ position: relative; background-size: cover; background-position: center; }
+.k-plate > .k-veil{ position: relative; background-image: var(--scrim-up); color: var(--cream); }
+
+/* A rule with a point to it. Use under a kicker, not as a divider. */
+.k-rule{
+  height: 1px; border: 0; margin: 0;
+  background: linear-gradient(90deg, var(--gold), rgba(164,113,26,0));
+}
+
+/* Glass bar. Over a scrim, never over bare text. */
+.k-glass{
+  background: rgba(246,241,232,.82);
+  backdrop-filter: var(--glass);
+  -webkit-backdrop-filter: var(--glass);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 1px 0 rgba(255,255,255,.7) inset, 0 8px 24px -20px rgba(26,36,32,.5);
+}
+
+/* Numerals that carry a price. Tabular so columns line up, which is most of
+   what makes a price table look deliberate. */
+.k-figure{
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.01em;
+}
+
+/* Entry. Paired with a class toggled by an observer; the kit does not ship
+   the observer. Without it the element is simply visible. */
+.k-enter{ opacity: 0; transform: translateY(18px); transition: opacity var(--t-enter), transform var(--t-enter); }
+.is-in .k-enter, .k-enter.is-in{ opacity: 1; transform: none; }
+
+/* Keyboard focus. Gold, offset, never removed. */
+.k-btn:focus-visible, .k-surface:focus-visible, a:focus-visible{
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .k-surface:hover, .k-btn:hover, .k-btn:active{ transform: none; }
+  .k-enter{ opacity: 1; transform: none; }
+}

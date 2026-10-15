@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Snout Lab — Barks &amp; Meows Only</title>
+  <link rel="stylesheet" href="_shared/sheet.css">
+  <link rel="stylesheet" href="fonts/fonts.css">
+  <link rel="stylesheet" href="fonts/house-surface.css">
+  <link rel="stylesheet" href="snout-lab-calculator-LAMBDA-v1.3-Tn3ga.page.css">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4efe4; /* override: Lambda paper; the sheet dark block sets this to #07090d */
+      --text-main: #14110e; /* override: Lambda ink; the sheet dark block sets this to #f3f4f6 */
+      --font-sans: "Plus Jakarta Sans", sans-serif; /* override: this page is Plus Jakarta Sans, not Readex Pro */
+      --cream: #f4efe4; /* override: Lambda paper is not the sheet cream */
+      --ink: #14110e; /* override: Lambda ink */
+      --paper: #fffdf8; /* override: control face, kept off pure white */
+      --pop: #d43728; /* page: the one loud field; #e23d2b puts white body text at 4.25, this clears 4.5 */
+    }
+  </style>
+</head>
+<body>
+  <header class="site">
+    <a class="mark" href="https://www.barksandmeowsonly.com/">Barks &amp; Meows Only</a>
+    <nav>
+      <a href="https://www.barksandmeowsonly.com/about">About</a>
+      <a href="https://www.barksandmeowsonly.com/services">Services</a>
+      <a href="https://www.barksandmeowsonly.com/snout-lab">Snout Labs</a>
+      <a href="https://www.barksandmeowsonly.com/provisions">Prey &amp; Plate Provisions</a>
+      <a href="https://www.barksandmeowsonly.com/barks-picks">BarkAzon</a>
+      <a href="https://www.barksandmeowsonly.com/contact">Contact</a>
+      <a href="https://www.barksandmeowsonly.com/cart">Cart</a>
+      <a href="https://www.barksandmeowsonly.com/appointments">Book Consultation</a>
+    </nav>
+  </header>
+
+  <section id="tool">
+    <p class="kicker">Free tool</p>
+    <p class="eyebrow">Choose Your Snout Lab Box</p>
+    <h1>What the day needs.</h1>
+    <p class="lede">Weight in, ingredients in, number out. No email. The Meat Whip is a topper or a base, not a complete diet.</p>
+    <p class="disclaimer">A feeding-ratio and ingredient-safety planning tool, not veterinary advice. Ask a vet before changing what a dog eats.</p>
+
+    <div class="row">
+      <label for="weight">Dog weight (lbs) <input id="weight" inputmode="decimal" value="40"></label>
+    </div>
+
+    <p class="kicker group-label" id="level-label">Feeding level</p>
+    <div class="levels" role="group" aria-labelledby="level-label">
+      <button type="button" class="ctrl" data-level="3.5">Puppy / active</button>
+      <button type="button" class="ctrl" data-level="2.5">Adult standard</button>
+      <button type="button" class="ctrl" data-level="1.5">Senior / less active</button>
+      <button type="button" class="ctrl" data-level="custom">Custom %</button>
+    </div>
+    <p class="hint" id="level-hint"></p>
+    <label id="custom-pct" hidden>Custom percent <input id="pct" inputmode="decimal" value="2.5"></label>
+
+    <p class="kicker group-label" id="meal-label">Meal type</p>
+    <div class="meals" role="group" aria-labelledby="meal-label">
+      <button type="button" class="ctrl" data-meal="PMR">P.M.R.</button>
+      <button type="button" class="ctrl" data-meal="BARF">B.A.R.F.</button>
+    </div>
+    <p class="hint" id="meal-hint"></p>
+
+    <div class="figures" aria-live="polite">
+      <p>Day <strong id="daily">—</strong></p>
+      <p>Fridge counted <strong id="covered">—</strong></p>
+      <p>Shortfall <strong id="gap">—</strong></p>
+    </div>
+    <ul class="split" id="split"></ul>
+
+    <div class="row">
+      <label for="ing-name">Ingredients on hand <input id="ing-name" autocomplete="off"></label>
+      <label for="ing-oz">Ounces <input id="ing-oz" inputmode="decimal"></label>
+      <button type="button" class="ctrl" id="add-ing">Add</button>
+    </div>
+    <ul id="fridge"></ul>
+  </section>
+
+  <section class="sheet" id="offerings">
+    <p class="kicker">Our offerings</p>
+    <h2>Three packs.</h2>
+    <p>Per pack, as of 2026-09-27. Membership does not change the pack price. The week is its own bill.</p>
+    <ul class="packs" id="packs"></ul>
+    <p><a href="https://www.barksandmeowsonly.com/provisions">The week lives on Prey &amp; Plate.</a></p>
+  </section>
+
+  <section class="sheet" id="subscription">
+    <p class="kicker">The subscription</p>
+    <h2>The seat, priced from the hour.</h2>
+    <p>$40 an hour. Hours are 1.5, 3, and 7 until that default is corrected. The dollars on these buttons are those two multiplied. They are not the prices on the membership page, and they do not include the bag.</p>
+    <div class="plans" role="group" aria-label="Plan">
+      <button type="button" class="ctrl" data-plan="igp">IGP</button>
+      <button type="button" class="ctrl" data-plan="ipo">IPO</button>
+      <button type="button" class="ctrl" data-plan="schutzhund">Schutzhund</button>
+    </div>
+    <p class="quiet">1. PLAN &amp; SIZE → 2. CUSTOM PROTEIN SELECTIONS → 3. REVIEW &amp; SCHEDULE</p>
+    <div class="freqs" role="group" aria-label="Delivery">
+      <button type="button" class="ctrl" data-freq="Every 2 Weeks">Every 2 Weeks</button>
+      <button type="button" class="ctrl" data-freq="Every 4 Weeks">Every 4 Weeks</button>
+      <button type="button" class="ctrl" data-freq="Every 6 Weeks">Every 6 Weeks</button>
+      <button type="button" class="ctrl" data-freq="Every 8 Weeks">Every 8 Weeks</button>
+    </div>
+    <p class="fine">The monthly figure stays the hour times the hours. Delivery cadence does not scale it.</p>
+  </section>
+
+  <section class="sheet" id="answers">
+    <p class="kicker">Straight answers</p>
+    <h2>Straight answers</h2>
+    <details><summary>Is this just scraps?</summary><p>It’s trim, and we say so on purpose. It’s the finely textured meat, fat, and connective tissue that comes off the bone saw while whole animals are being broken down for people, collected fresh the same day. Most premium food is made from the same material. The difference is that we’ll name it.</p></details>
+    <details><summary>Why does trim cost this much?</summary><p>Because collecting it fresh, keeping it cold, and portioning it by hand is the expensive part, not the cut. You’re paying for the handling. <a href="https://www.barksandmeowsonly.com/provisions/p/meat-whip">Current pricing is on the listing.</a></p></details>
+    <details><summary>“Supplemental only” — so it doesn’t really do anything?</summary><p>It makes food get eaten. It’s a topper, a mixer, and a way to get the regular meal finished. It is not a balanced standalone diet. Your dog’s complete nutrition comes from their regular food.</p></details>
+    <details><summary>“Composition varies by batch” sounds like you don’t know what’s in it.</summary><p>We know what’s in it: meat, fat, and connective tissue from beef, pork, and chicken trim, and nothing else added. What varies is the ratio, because it depends on what was broken down that day.</p></details>
+    <details><summary>Raw and frozen is a hassle.</summary><p>Keep it frozen, thaw what you need, and treat it like the raw meat it is. Portion a container into a tray, freeze it in cubes, and pull one at a time.</p></details>
+    <details><summary>Is “restaurant-quality sourcing” just a marketing word?</summary><p>It’s a claim about where the material came from. This is trim off animals that were being butchered for people, caught during that process. The meat is USDA-inspected and comes straight from human-food distributors.</p></details>
+    <details><summary>Why not just buy a complete commercial food?</summary><p>Keep feeding it. This isn’t a replacement for it. It sits on top of the regular meals, not in place of them.</p></details>
+  </section>
+
+  <div class="bar">
+    <p class="bar-day"><span id="bar-grams">—</span><span id="bar-day-detail"></span></p>
+    <p class="bar-seat"><span id="summary-name"></span><span id="summary-detail"></span><span>Free Temperature-Controlled Delivery</span></p>
+    <button type="button" class="ctrl" id="cuts">Choose Cuts (Part 2)</button>
+  </div>
+  <p id="part2" hidden>Part 2 is the cut list. This button does not open a checkout.</p>
+  <script src="snout-lab-calculator-v1.3-Tn3ga.js"></script>
+<script src="palette-index.js"></script>
+<script src="palette.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+/* House shared sheet — one file, no build step, no dependencies.
+ *
+ * Measured 2026-10-01 across 139 generated pages in G3mma/out, Tn3ga/out,
+ * Gl1nt/out and CoTaSiCr/out before a line of this was written:
+ *   - 107 of 139 already declare :root custom properties, and the NAMES have
+ *     already converged on their own (--text-main 35 pages, --text-muted 47,
+ *     --bg 30, --font-mono 42, --font-sans 24).
+ *   - The VALUES have not. --bg carries 23 distinct values, --ink 5, --green 4
+ *     (two of those differing only in case: #1B4D3E and #1b4d3e). No value is
+ *     dominant anywhere -- the most common --text-main appears on 6 pages of 139.
+ *
+ * So the defect is not that pages invent names; it is that every page re-decides
+ * the same six or seven values from scratch. This file fixes exactly that and
+ * claims nothing more: it gives the already-agreed names a house default, light
+ * and dark. A page links it and is correct without declaring anything.
+ *
+ * It does NOT restyle anything. There are no element rules below the token block
+ * beyond a base background/colour on :root, because a shared sheet that imposes
+ * a look would have to be fought page by page, and fighting it is how the two
+ * contact sheets ended up with byte-identical CSS maintained separately.
+ *
+ * A page that genuinely needs its own palette keeps overriding :root locally.
+ * That already works and is not drift -- a dark dashboard and a cream flyer are
+ * supposed to differ. Re-typing #6b7280 for the 47th time is not.
+ *
+ * Scope: pages we generate. Explicitly NOT barksandmeowsonly.com, which is
+ * Squarespace, where Custom CSS is the only lever and the lane is Squar3Spac3's.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  /* Ink */
+  --text-main:   #1f2320;
+  --text-muted:  #6b7280;
+  --text-dim:    #9ca3af;
+
+  /* Ground */
+  --bg:          #f6f1e8;
+  --surface:     #fffdf8;
+  --stroke:      rgba(31, 35, 32, 0.12);
+
+  /* House colour. The green is the Barks green, lowercased once and for all. */
+  --green:       #1b4d3e;
+  --green-lift:  #2d6a4f;
+  --cream:       #f6f1e8;
+  --accent:      #b5501c;
+
+  /* Type. Both of these were already the plurality spelling; they are kept
+     verbatim rather than "tidied", so a page that already declares one of them
+     is byte-identical to this and the duplicate is visibly a duplicate. */
+  --font-sans:   "Readex Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono:   ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Rhythm */
+  --gutter:      1.25rem;
+  --radius:      10px;
+
+  background: var(--bg);
+  color: var(--text-main);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --text-main:  #f3f4f6;
+    --text-muted: #94a3b8;
+    --text-dim:   #64748b;
+    --bg:         #07090d;
+    --surface:    #0f172a;
+    --stroke:     rgba(243, 244, 246, 0.14);
+    --green:      #10b981;
+    --green-lift: #34d399;
+    --accent:     #e08a4a;
+  }
+}
+
+:root[data-theme="dark"] {
+  --text-main:  #f3f4f6;
+  --text-muted: #94a3b8;
+  --text-dim:   #64748b;
+  --bg:         #07090d;
+  --surface:    #0f172a;
+  --stroke:     rgba(243, 244, 246, 0.14);
+  --green:      #10b981;
+  --green-lift: #34d399;
+  --accent:     #e08a4a;
+}
